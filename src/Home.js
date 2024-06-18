@@ -2,21 +2,22 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Component/Navbar';
-
+import img from './Images/null images.jpg'
 const Home = () => {
     const [articles, setArticles] = useState([]);
   const [country, setCountry] = useState('in');
   const [category, setCategory] = useState('general')
-  const [keyWord, setkeyWord] = useState([]);
+  const [keyWord, setKeyword] = useState('');
   const navigate = useNavigate();
   
   useEffect(() => {
     const fetchData = async () => {
       try {
        if(category){
-        console.log(category);
-        const result = await axios.get(`https://newsapi.org/v2/top-headlines?q=${keyWord}&country=${country}&category=${category}&apiKey=b9329e3225d746e595d53e1fa32adf03`);
+
+        const result = await axios.get(`https://newsapi.org/v2/top-headlines?q=${keyWord}&country=${country}&category=${category}&apiKey=c5de9d90d852436d868f5f1e17e4b1f3`);
         setArticles(result.data.articles);
+       setKeyword('');
        }
       } catch (error) {
         console.error("Error fetching data", error);
@@ -24,19 +25,19 @@ const Home = () => {
     };
 
     fetchData();
-  }, [category]);
+  }, [category, keyWord, keyWord.length != 0]);
   return (
     <>
-     <Navbar setCategory={setCategory} category={category}/>
-    <div className="App ps-2 pe-2" style={{justifyContent:'center', alignItems:'center', display:'grid', gridTemplateColumns:'repeat(3,1fr)', gridGap:'1.5rem', padding:'25px' }}>
+     <Navbar setCategory={setCategory} category={category} setKeyword={setKeyword} keyWord={keyWord}/>
+    <div className="App p-4 grid md:grid-cols-2 gap-2 lg:grid-cols-4 gap-4 w-100">
       {articles.map((article, index) => (
 
-        <div className="card rounded-lg hover:shadow-[#0f71dd] bg-gray p-3 bg-[#0f172abf]" style={{maxHeight: '400px', overflow:'hidden', height:'450px',color:'#0ea5e9'}} key={index}>
-          <img className="card-img-top border-slate-800 border-b-2 " src={article.urlToImage} alt="Card image cap" style={{width:'100%', maxHeight:'200px', height:'200px', objectFit:'cover'}} />
-          <div className="card-body" style={{padding:'10px'}}>
-            <a className="card-title text-slate-500 hover:text-[#0f71dd]" href={`${article.url}`}>{article.title}</a>
+        <div className="card rounded-lg hover:shadow-[#0f71dd]  p-4 bg-[#0f172abf] bg-opacity-70" style={{maxHeight: '400px', overflow:'hidden',color:'#0ea5e9'}} key={index}>
+          <img className="card-img-top border-gray-700 border-b-2 " src={article.urlToImage? article.urlToImage :img} alt="Card image cap" style={{width:'100%', maxHeight:'200px', height:'200px', objectFit:'cover'}} />
+          <div className="card-body p-2" style={{padding:'10px'}}>
+            <a className="card-title text-blue-300 hover:text-blue-500 block" href={`${article.url}`}>{article.title}</a>
             <br />
-            <a className="card-text text-slate-500 hover:text-[#0f71dd]" href={`${article.url}`} >{article.description}</a>
+            <p className="card-text text-gray-300 hover:text-gray-200 block mt-2 truncate"  >{article.description}</p>
        
           </div>
         </div>
