@@ -1,25 +1,28 @@
-import React, { useEffect, useState, useTransition } from 'react';
-
+import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home';
+import Favorite from './Pages/Favorite';
+
 import Navbar from './Component/Navbar';
-import { Router, useNavigate } from 'react-router-dom';
-import Home from './Home';
 
 function App() {
-  // const [articles, setArticles] = useState([]);
-  // const [country, setCountry] = useState('in');
-  // const [category, setCategory] = useState('general')
-  // const [keyWord, setkeyWord] = useState([]);
-  // const navigate = useNavigate();
- 
-
+  const [category, setCategory] = useState('general');
+  const [keyWord, setKeyword] = useState('');
   return (
-    
-  
-       <Home/>
-      
-    
+    <BrowserRouter>
+    <Navbar setCategory={setCategory} category={category} setKeyword={setKeyword} keyWord={keyWord} />
+      <Routes>
+        <Route path="/" element={<Home category={'general'} keyWord={keyWord}/>} />
+        <Route path="/Sports" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Science" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Entertainment" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Technology" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Business" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Health" element={<Home category={category} keyWord={keyWord}/>} />
+        <Route path="/Favorite" element={<Favorite/>} />
+      </Routes>
+      </BrowserRouter>
 
   );
 }
