@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
     <Navbar setKeyword={setKeyword} keyWord={keyWord} />
       <Routes>
-        <Route path="/" element={<Home category={'general'} keyWord={keyWord}/>} />
+        <Route path="/" element={<Home category={'top'} keyWord={keyWord}/>} />
         <Route path="/Sports" element={<Home category={'sports'} keyWord={keyWord}/>} />
         <Route path="/Science" element={<Home category={'science'} keyWord={keyWord}/>} />
         <Route path="/Entertainment" element={<Home category={'entertainment'} keyWord={keyWord}/>} />

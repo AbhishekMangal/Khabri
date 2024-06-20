@@ -21,7 +21,7 @@ const Navbar = ({ setKeyword, keyWord }) => {
 
   useEffect(() => {
     const path = window.location.pathname;
-    setCategory(path === '/' ? 'general' : path.substring(1));
+    setCategory(path === '/' ? '' : path.substring(1));
   }, []);
 
   const dropDownlist = [
@@ -89,7 +89,7 @@ const Navbar = ({ setKeyword, keyWord }) => {
           <Navitem
             text="Home"
             icon={<IoHome size={25} />}
-            onClick={() => { setCategory("general"); }}
+            onClick={() => { setCategory(''); }}
             isActive={window.location.pathname === '/'}
             location={'/'}
           />

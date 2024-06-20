@@ -15,8 +15,10 @@ const Home = ({ category, keyWord }) => {
     
     setLoading(true);
     try {
-      const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=${page}`);
-      setArticles(prevArticles => [...prevArticles, ...result.data.articles]);
+      const result = await axios.get(`https://newsdata.io/api/1/latest?apikey=pub_468882fb67bd9a3bc58fdf38cabf28d7b26eb&country=in&category=${category}&language=en,hi`,
+      );
+      setArticles(prevArticles => [...prevArticles, ...result.data.results]);
+      
       setPage(prevPage => prevPage + 1);
     } catch (error) {
       console.error("Error fetching data", error);
@@ -30,10 +32,11 @@ const Home = ({ category, keyWord }) => {
       setLoading(true);
       try {
         console.log(keyWord);
-        const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=1`);
-        setArticles(result.data.articles);
+        const result = await axios.get(`https://newsdata.io/api/1/latest?apikey=pub_468882fb67bd9a3bc58fdf38cabf28d7b26eb&country=in&category=${category}&language=en,hi`);
+        setArticles(result.data.results);
         setPage(2);
         setTotalResult(result.data.totalResults);
+        console.log(totalResult)
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {
