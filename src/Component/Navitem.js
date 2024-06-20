@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 export function Navitem({ text, icon, onClick, isActive, location }) {
   return (
     <Link
-      className={`flex items-center p-2 w-36  ${
+      className={`flex items-center p-2  ${
         isActive ? "text-[#0ea5e9] " : "text-slate-300 hover:text-[#0ea5e9]"
       } cursor-pointer`}
       onClick={onClick}
       to ={location}
     >
       {icon}
-      <span className="ml-2">{text}</span>
+      <span className="ml-2 capitalize">{text}</span>
     </Link>
   );
 }
@@ -20,7 +20,7 @@ export function Navitem({ text, icon, onClick, isActive, location }) {
 // ToggleMenu Component
 export function ToggleMenu({ toggleMenu }) {
   return (
-    <div className="md:hidden flex items-center pr-3">
+    <div className="lg:hidden flex items-center pr-3">
       <button
         onClick={toggleMenu}
         className="text-3xl text-slate-300 focus:outline-none"

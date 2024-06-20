@@ -7,20 +7,20 @@ import Favorite from './Pages/Favorite';
 import Navbar from './Component/Navbar';
 
 function App() {
-  const [category, setCategory] = useState('general');
+ 
   const [keyWord, setKeyword] = useState('');
   return (
     <BrowserRouter>
-    <Navbar setCategory={setCategory} category={category} setKeyword={setKeyword} keyWord={keyWord} />
+    <Navbar setKeyword={setKeyword} keyWord={keyWord} />
       <Routes>
         <Route path="/" element={<Home category={'general'} keyWord={keyWord}/>} />
-        <Route path="/Sports" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Science" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Entertainment" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Technology" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Business" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Health" element={<Home category={category} keyWord={keyWord}/>} />
-        <Route path="/Favorite" element={<Favorite/>} />
+        <Route path="/Sports" element={<Home category={'sports'} keyWord={keyWord}/>} />
+        <Route path="/Science" element={<Home category={'science'} keyWord={keyWord}/>} />
+        <Route path="/Entertainment" element={<Home category={'entertainment'} keyWord={keyWord}/>} />
+        <Route path="/Technology" element={<Home category={'technology'} keyWord={keyWord}/>} />
+        <Route path="/Business" element={<Home category={'business'} keyWord={keyWord}/>} />
+        <Route path="/Health" element={<Home category={'health'} keyWord={keyWord}/>} />
+        <Route path="/Favorite" element={<Favorite keyWord={keyWord}/>} />
       </Routes>
       </BrowserRouter>
 
