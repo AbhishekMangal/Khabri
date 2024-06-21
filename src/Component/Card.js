@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa6';
 import imgs from '../Images/null images.jpg';
 import { setSelectedArticle } from '../Features/news/newsSlice';
@@ -6,16 +6,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 const Card = ({ article, index }) => {
-  const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
+
+  useEffect(() => {
+    const handleFavoritesUpdate = (event) => {
+      setFavorites(event.detail);
+    };
+
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdate);
+
+    return () => {
+      window.removeEventListener('favoritesUpdated', handleFavoritesUpdate);
+    };
+  }, []);
 
   const saveFavoriteArticle = (article) => {
     let favoritesList = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (!favoritesList.some(fav => fav.url === article.url)) {
+    if (!favoritesList.some(fav => fav.article_id === article.article_id)) {
       favoritesList.push(article);
     } else {
-      favoritesList = favoritesList.filter(fav => fav.url !== article.url);
+      favoritesList = favoritesList.filter(fav => fav.article_id !== article.article_id);
     }
     setFavorites(favoritesList);
     localStorage.setItem('favorites', JSON.stringify(favoritesList));
@@ -25,12 +36,11 @@ const Card = ({ article, index }) => {
   };
 
   const isFavorite = (article) => {
-    return favorites.some(fav => fav.url === article.url);
+    return favorites.some(fav => fav.article_id === article.article_id);
   };
 
   const handleClick = (article) => {
     dispatch(setSelectedArticle(article));
-
   };
 
   return (

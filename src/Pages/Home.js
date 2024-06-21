@@ -18,9 +18,9 @@ const Home = ({ category }) => {
     dispatch(setLoading(true));
     let url;
     if (keyWord.length === 0) {
-      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&page=${page}&country=in&category=${category}&language=en,hi`;
+      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&page=${page}&country=in&category=${category}&language=en,hi`;
     } else {
-      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&page=${page}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
+      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&page=${page}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
     }
     try {
       const result = await axios.get(url);
@@ -35,13 +35,14 @@ const Home = ({ category }) => {
 
   useEffect(() => {
     const initialFetch = async () => {
+      console.log(process.env.REACT_APP_API_KEY)
       dispatch(setLoading(true));
       try {
         let url;
         if (keyWord.length === 0) {
-          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&country=in&category=${category}&language=en,hi`;
+          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&country=in&category=${category}&language=en,hi`;
         } else {
-          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
+          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
         }
         const result = await axios.get(url);
         dispatch(setArticles(result.data.results));

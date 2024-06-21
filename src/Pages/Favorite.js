@@ -13,7 +13,8 @@ const Favorite = () => {
       const filtered = favorites.filter(
         article =>
           article.title.toLowerCase().includes(keyWord.toLowerCase()) ||
-          article.description.toLowerCase().includes(keyWord.toLowerCase())
+          article.description.toLowerCase().includes(keyWord.toLowerCase())||
+          article.keyWord.toLowerCase().includes(keyWord.toLowerCase())
       );
       setFilteredArticles(filtered);
     } else {
