@@ -7,18 +7,25 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios';
 import Card from '../Component/Card'; // Adjust the path based on your actual file structure
-import result from '../news.json'
+
 const Home = ({ category }) => {
   const dispatch = useDispatch();
   const { articles, loading, page, totalResults, keyWord } = useSelector(state => state.news);
 
   const fetchData = async () => {
+    if (!page) return; // Stop if there is no next page
+
     dispatch(setLoading(true));
+    let url;
+    if (keyWord.length === 0) {
+      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&page=${page}&country=in&category=${category}&language=en,hi`;
+    } else {
+      url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&page=${page}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
+    }
     try {
-      // const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=${page}`);
-      dispatch(setArticles([...articles, ...result.results]));
-  
-      dispatch(setPage(page + 1));
+      const result = await axios.get(url);
+      dispatch(setArticles([...articles, ...result.data.results]));
+      dispatch(setPage(result.data.nextPage));
     } catch (error) {
       console.error("Error fetching data", error);
     } finally {
@@ -30,11 +37,16 @@ const Home = ({ category }) => {
     const initialFetch = async () => {
       dispatch(setLoading(true));
       try {
-        // const result = await axios.get(`${news.json}`);
-        console.log(result)
-        dispatch(setArticles(result.results));
-        dispatch(setPage(2));
-        dispatch(setTotalResults(result.results.length));
+        let url;
+        if (keyWord.length === 0) {
+          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&country=in&category=${category}&language=en,hi`;
+        } else {
+          url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_URL}&country=in&category=${category}&language=en,hi&q=${keyWord}`;
+        }
+        const result = await axios.get(url);
+        dispatch(setArticles(result.data.results));
+        dispatch(setPage(result.data.nextPage));
+        dispatch(setTotalResults(result.data.totalResults));
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {
@@ -43,11 +55,11 @@ const Home = ({ category }) => {
     };
 
     initialFetch();
-  }, [category,keyWord]);
+  }, [category, keyWord]);
 
   return (
     <>
-      {loading && page === 2 && (
+      {loading && page === null && (
         <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]">
           <ClipLoader color="white" loading={loading} size={150} />
         </div>
@@ -56,7 +68,7 @@ const Home = ({ category }) => {
       <InfiniteScroll
         dataLength={articles.length}
         next={fetchData}
-        hasMore={true}
+        hasMore={page !== null}
         loader={
           <div className="flex justify-center items-center my-4">
             <ClipLoader color="white" loading={loading} size={50} />

@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home category={'general'} />} />
+          <Route path="/" element={<Home category={'top'} />} />
           <Route path="/Sports" element={<Home category={'sports'} />} />
           <Route path="/Science" element={<Home category={'science'} />} />
           <Route path="/Entertainment" element={<Home category={'entertainment'} />} />
@@ -24,7 +24,7 @@ function App() {
           <Route path="/Business" element={<Home category={'business'} />} />
           <Route path="/Health" element={<Home category={'health'} />} />
           <Route path="/Favorite" element={<Favorite  category={'Favorite'}/>  } />
-          <Route path="/CompleteArticle" element={<CompleteArticle />} />
+          <Route path="/CompleteArticle/:id" element={<CompleteArticle />} />
         </Routes>
       </BrowserRouter>
     </Provider>

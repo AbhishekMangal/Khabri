@@ -160,12 +160,12 @@ useEffect(()=>
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center px-3 justify-start">
+        <div className="hidden sm:flex items-center pe-7 justify-start">
           <AiOutlineSearch size={25} className="text-slate-300 mr-2" />
-          <input
+          <input 
             type="search"
             placeholder="Search"
-            className="bg-transparent focus:outline-none border-none justify-center rounded text-slate-300 placeholder-gray-400"
+            className=" bg-transparent focus:outline-none justify-center rounded text-slate-300 placeholder-gray-400 pe-6 border-b-2 border-slate-800"
             value={keyWord}
             onChange={handleChange}
           />

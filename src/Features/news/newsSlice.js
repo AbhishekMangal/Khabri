@@ -13,6 +13,7 @@ const initialState = {
   menuOpen: false,
   drop: false,
   selectedArticle: {}
+  
 };
 
 const newsSlice = createSlice({
