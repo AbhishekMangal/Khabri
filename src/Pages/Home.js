@@ -1,51 +1,48 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+// src/components/Home.js
+
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setArticles, setLoading, setPage, setTotalResults } from '../Features/news/newsSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Card from '../Component/Card';
 import ClipLoader from "react-spinners/ClipLoader";
+import axios from 'axios';
+import Card from '../Component/Card'; // Adjust the path based on your actual file structure
 
-const Home = ({ category, keyWord }) => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [totalResult, setTotalResult] = useState(0);
-
+const Home = ({ category }) => {
+  const dispatch = useDispatch();
+  const { articles, loading, page, totalResults, keyWord } = useSelector(state => state.news);
 
   const fetchData = async () => {
-    
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
-      const result = await axios.get(`https://newsdata.io/api/1/latest?apikey=pub_468882fb67bd9a3bc58fdf38cabf28d7b26eb&country=in&category=${category}&language=en,hi`,
-      );
-      setArticles(prevArticles => [...prevArticles, ...result.data.results]);
-      
-      setPage(prevPage => prevPage + 1);
+      const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=${page}`);
+      dispatch(setArticles([...articles, ...result.data.articles]));
+  
+      dispatch(setPage(page + 1));
     } catch (error) {
       console.error("Error fetching data", error);
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 
   useEffect(() => {
     const initialFetch = async () => {
-      setLoading(true);
+      dispatch(setLoading(true));
       try {
-        console.log(keyWord);
-        const result = await axios.get(`https://newsdata.io/api/1/latest?apikey=pub_468882fb67bd9a3bc58fdf38cabf28d7b26eb&country=in&category=${category}&language=en,hi`);
-        setArticles(result.data.results);
-        setPage(2);
-        setTotalResult(result.data.totalResults);
-        console.log(totalResult)
+        const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03`);
+        dispatch(setArticles(result.data.articles));
+        dispatch(setPage(2));
+        dispatch(setTotalResults(result.data.totalResults));
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     initialFetch();
-  }, [category, keyWord]);
+  }, [category,keyWord]);
 
   return (
     <>
@@ -58,7 +55,7 @@ const Home = ({ category, keyWord }) => {
       <InfiniteScroll
         dataLength={articles.length}
         next={fetchData}
-        hasMore={articles.length !== totalResult}
+        hasMore={true}
         loader={
           <div className="flex justify-center items-center my-4">
             <ClipLoader color="white" loading={loading} size={50} />
@@ -70,8 +67,8 @@ const Home = ({ category, keyWord }) => {
           </p>
         }
         refreshFunction={() => {
-          setArticles([]);
-          setPage(1);
+          dispatch(setArticles([]));
+          dispatch(setPage(1));
           fetchData();
         }}
         pullDownToRefresh
@@ -85,9 +82,7 @@ const Home = ({ category, keyWord }) => {
       >
         <div className="App p-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {articles.map((article, index) => (
-           article.title !== "[Removed]" &&  
             <Card article={article} key={index} />
-            
           ))}
         </div>
       </InfiniteScroll>

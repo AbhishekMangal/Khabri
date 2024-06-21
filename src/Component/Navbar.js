@@ -1,81 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { IoHome, IoBusiness } from "react-icons/io5";
+import { useSelector, useDispatch } from "react-redux";
+import { setKeyWord, setMenuOpen, setCategory, setDrop } from "../Features/news/newsSlice";
+import { IoHome } from "react-icons/io5";
 import { MdOutlineSportsCricket } from "react-icons/md";
 import { SiBookstack } from "react-icons/si";
 import { PiTelevisionSimpleFill } from "react-icons/pi";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
+import { IoBusiness } from "react-icons/io5";
 import { CiHospital1 } from "react-icons/ci";
+import { FaStar } from "react-icons/fa6";
 import { AiOutlineSearch } from "react-icons/ai";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import { TbCategory } from "react-icons/tb";
 import logo from "../Favicon/logo.png";
 import SideBar from "./SideBar";
 import { Logo, Navitem, ToggleMenu } from "./Navitem";
-import { TbCategory2 } from "react-icons/tb";
-import { FaStar } from 'react-icons/fa6';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
-const Navbar = ({ setKeyword, keyWord }) => {
-
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [drop, setDrop] = useState(false);
-  const [categories, setCategory] = useState('');
-
-  useEffect(() => {
-    const path = window.location.pathname;
-    setCategory(path === '/' ? '' : path.substring(1));
-  }, []);
-
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const { keyWord, category, menuOpen, drop } = useSelector((state) => state.news);
+useEffect(()=>
+{
+  window.location.pathname === '/'? dispatch(setCategory("general")):dispatch(setCategory(window.location.pathname.substring(1)))
+})
   const dropDownlist = [
     {
-      name: 'sports',
-      icon: <MdOutlineSportsCricket size={25} />
+      name: "sports",
+      icon: <MdOutlineSportsCricket size={25} />,
     },
     {
-      name: 'science',
-      icon: <SiBookstack size={25} />
+      name: "science",
+      icon: <SiBookstack size={25} />,
     },
     {
-      name: 'entertainment',
-      icon: <PiTelevisionSimpleFill size={35} />
+      name: "entertainment",
+      icon: <PiTelevisionSimpleFill size={35} />,
     },
     {
-      name: 'technology',
-      icon: <HiOutlineDesktopComputer size={25} />
+      name: "technology",
+      icon: <HiOutlineDesktopComputer size={25} />,
     },
     {
-      name: 'business',
-      icon: <IoBusiness size={25} />
+      name: "business",
+      icon: <IoBusiness size={25} />,
     },
     {
-      name: 'health',
-      icon: <CiHospital1 size={25} />
-    }
+      name: "health",
+      icon: <CiHospital1 size={25} />,
+    },
   ];
 
   const handleClick = (value) => {
-    setCategory(value);
-    setMenuOpen(false);
-    setDrop(false);
+    dispatch(setCategory(value));
+    dispatch(setMenuOpen(false));
+    dispatch(setDrop(false));
   };
 
   const handleChange = (e) => {
-    setKeyword(e.target.value);
+    dispatch(setKeyWord(e.target.value));
   };
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    dispatch(setMenuOpen(!menuOpen));
   };
 
   const toggleDropdown = () => {
-    setDrop(!drop);
+    dispatch(setDrop(!drop));
   };
 
   return (
     <>
-      <div className="NavBar text-lg md:text-2xl ps-3 pt-2 grid items-center border-slate-800 border-b-2 sticky top-0 z-50"
+      <div
+        className="NavBar text-lg md:text-2xl ps-3 pt-2 grid items-center border-slate-800 border-b-2 sticky top-0 z-50"
         style={{
           gridTemplateColumns: "auto 2fr auto",
           height: "80px",
-          background: "linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7))"
+          background:
+            "linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7))",
         }}
       >
         {/* Mobile Menu Button */}
@@ -89,18 +90,25 @@ const Navbar = ({ setKeyword, keyWord }) => {
           <Navitem
             text="Home"
             icon={<IoHome size={25} />}
-            onClick={() => { setCategory(''); }}
-            isActive={window.location.pathname === '/'}
-            location={'/'}
+            onClick={() => {
+              handleClick('general')
+
+            }}
+            isActive={category === "general"}
+            location="/"
           />
 
           {/* Dropdown for Categories */}
           <div className="flex items-center relative">
             <div
-              className={`flex items-center cursor-pointer ${drop ? "text-[#0ea5e9]" : "text-slate-300 hover:text-[#0ea5e9]"}`}
+              className={`flex items-center cursor-pointer ${
+                drop ? "text-[#0ea5e9]" : "text-slate-300 hover:text-[#0ea5e9]"
+              }`}
               onClick={toggleDropdown}
             >
-              {dropDownlist.some(item => `/${item.name}` === window.location.pathname) ?
+              {dropDownlist.some(
+                (item) => `/${item.name}` === window.location.pathname
+              ) ? (
                 dropDownlist.map((item) => {
                   if (`/${item.name}` === window.location.pathname) {
                     return (
@@ -113,12 +121,13 @@ const Navbar = ({ setKeyword, keyWord }) => {
                     );
                   }
                   return null;
-                }) :
+                })
+              ) : (
                 <div className="flex items-center p-2 cursor-pointer hover:text-[#0ea5e9]">
-                  <TbCategory2 size={25} />
+                  <TbCategory size={25} />
                   <span className="ml-2 capitalize">Categories</span>
                 </div>
-              }
+              )}
               <RiArrowDropDownLine size={25} />
             </div>
 
@@ -129,8 +138,10 @@ const Navbar = ({ setKeyword, keyWord }) => {
                     key={item.name}
                     text={item.name}
                     icon={item.icon}
-                    onClick={() => { handleClick(item.name); }}
-                    isActive={window.location.pathname === `/${item.name}`}
+                    onClick={() => {
+                      handleClick(item.name)
+                    }}
+                    isActive={category === item.name}
                     location={`/${item.name}`}
                   />
                 ))}
@@ -140,9 +151,11 @@ const Navbar = ({ setKeyword, keyWord }) => {
           <Navitem
             text="Favourites"
             icon={<FaStar size={25} />}
-            onClick={() => { setCategory('') }}
-            isActive={window.location.pathname === `/Favorite`}
-            location={'/Favorite'}
+            onClick={() => {
+            handleClick("Favorite");
+            }}
+            isActive={category === 'Favorite'}
+            location="/Favorite"
           />
         </div>
 
@@ -160,7 +173,7 @@ const Navbar = ({ setKeyword, keyWord }) => {
       </div>
 
       {/* Mobile Sidebar */}
-      {menuOpen && <SideBar handleClick={handleClick} category={categories} setCategory={setCategory} />}
+      {menuOpen && <SideBar handleClick={handleClick} category={category} />}
     </>
   );
 };

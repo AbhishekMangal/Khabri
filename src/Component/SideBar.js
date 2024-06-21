@@ -13,64 +13,64 @@ const SideBar = ({ handleClick, category ,setCategory}) => {
   useEffect(()=>
   {
     const path = window.location.pathname
-    setCategory(path === '/' ? 'general' : path.substring(1));
+  
   })
   return (
     <div className="lg:hidden fixed top-20 inset-y-0 left-0 p-4 bg-[#0f172a] z-50 transform translate-x-0 transition-transform duration-300 ease-in-out w-64">
       <Navitem
         text="Home"
         icon={<IoHome size={25} />}
-        onClick={() => handleClick("general")}
-        isActive={window.location.pathname === "/general"}
+        // onClick={() => handleClick("general")}
+        isActive={window.location.pathname === "/"}
         location={'/'}
       />
        
       <Navitem
         text="Sports"
         icon={<MdOutlineSportsCricket size={25} />}
-        onClick={() => handleClick("sports")}
+        // onClick={() => handleClick("sports")}
         isActive={window.location.pathname === "/sports"}
         location={('/sports')}
       />
       <Navitem
         text="Science"
         icon={<SiBookstack size={25} />}
-        onClick={() => handleClick("science")}
+        // onClick={() => handleClick("science")}
         isActive={window.location.pathname === "/science"}
         location={('/science')}
       />
       <Navitem
         text="Entertainment"
         icon={<PiTelevisionSimpleFill size={25} />}
-        onClick={() => handleClick("entertainment")}
+        // onClick={() => handleClick("entertainment")}
         isActive={window.location.pathname === "/entertainment"}
         location={'/entertainment'}
       />
       <Navitem
         text="Technology"
         icon={<HiOutlineDesktopComputer size={25} />}
-        onClick={() => handleClick("technology")}
+        // onClick={() => handleClick("technology")}
         isActive={window.location.pathname === "/technology"}
         location={'/technology'}
       />
       <Navitem
         text="Business"
         icon={<IoBusiness size={25} />}
-        onClick={() => handleClick("business")}
+        // onClick={() => handleClick("business")}
         isActive={window.location.pathname === "/business"}
         location={'/business'}
       />
       <Navitem
         text="Health"
         icon={<CiHospital1 size={25} />}
-        onClick={() => handleClick("health")}
+        // onClick={() => handleClick("health")}
         isActive={window.location.pathname === "/health"}
         location={'/health'}
       />
       <Navitem
             text="Favourites"
             icon={<FaStar size={25}/>}
-            onClick={()=>{setCategory('') ;}}
+            // onClick={handleClick("Favorite")}
             isActive={window.location.pathname === `/Favorite`}
             location={'/Favorite'}
           />

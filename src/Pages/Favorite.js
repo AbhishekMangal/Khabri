@@ -1,42 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Card from '../Component/Card';
 
-const Favorite = ({ keyWord }) => {
-  const [articles, setArticles] = useState([]);
+const Favorite = () => {
+  const { keyWord } = useSelector(state => state.news);
   const [filteredArticles, setFilteredArticles] = useState([]);
-
-  useEffect(() => {
-    // Load favorites from localStorage when component mounts
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setArticles(favorites);
-
-    // Set up a custom event listener to detect changes in favorites
-    const handleFavoritesUpdate = () => {
-      const updatedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-      setArticles(updatedFavorites);
-    };
-
-    window.addEventListener('favoritesUpdated', handleFavoritesUpdate);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('favoritesUpdated', handleFavoritesUpdate);
-    };
-  }, []);
+  const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || []);
 
   useEffect(() => {
     // Filter articles based on keyWord
     if (keyWord && keyWord.length !== 0) {
-      const filtered = articles.filter(
+      const filtered = favorites.filter(
         article =>
           article.title.toLowerCase().includes(keyWord.toLowerCase()) ||
           article.description.toLowerCase().includes(keyWord.toLowerCase())
       );
       setFilteredArticles(filtered);
     } else {
-      setFilteredArticles(articles); // Reset filtered articles to all articles
+      setFilteredArticles(favorites); // Reset filtered articles to all articles
     }
-  }, [keyWord, articles]);
+  }, [keyWord, favorites]);
+
+  useEffect(() => {
+    const handleFavoritesUpdate = (event) => {
+      setFavorites(event.detail);
+    };
+
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdate);
+
+    return () => {
+      window.removeEventListener('favoritesUpdated', handleFavoritesUpdate);
+    };
+  }, []);
 
   return (
     <div className="App p-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">

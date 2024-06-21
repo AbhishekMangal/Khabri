@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+// src/App.js
+
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './App/store';
 import Home from './Pages/Home';
 import Favorite from './Pages/Favorite';
-
 import Navbar from './Component/Navbar';
+import CompleteArticle from './Pages/CompleteArticle';
 
 function App() {
- 
-  const [keyWord, setKeyword] = useState('');
   return (
-    <BrowserRouter>
-    <Navbar setKeyword={setKeyword} keyWord={keyWord} />
-      <Routes>
-        <Route path="/" element={<Home category={'top'} keyWord={keyWord}/>} />
-        <Route path="/Sports" element={<Home category={'sports'} keyWord={keyWord}/>} />
-        <Route path="/Science" element={<Home category={'science'} keyWord={keyWord}/>} />
-        <Route path="/Entertainment" element={<Home category={'entertainment'} keyWord={keyWord}/>} />
-        <Route path="/Technology" element={<Home category={'technology'} keyWord={keyWord}/>} />
-        <Route path="/Business" element={<Home category={'business'} keyWord={keyWord}/>} />
-        <Route path="/Health" element={<Home category={'health'} keyWord={keyWord}/>} />
-        <Route path="/Favorite" element={<Favorite keyWord={keyWord}/>} />
-      </Routes>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home category={'general'} />} />
+          <Route path="/Sports" element={<Home category={'sports'} />} />
+          <Route path="/Science" element={<Home category={'science'} />} />
+          <Route path="/Entertainment" element={<Home category={'entertainment'} />} />
+          <Route path="/Technology" element={<Home category={'technology'} />} />
+          <Route path="/Business" element={<Home category={'business'} />} />
+          <Route path="/Health" element={<Home category={'health'} />} />
+          <Route path="/Favorite" element={<Favorite  category={'Favorite'}/>  } />
+          <Route path="/CompleteArticle" element={<CompleteArticle />} />
+        </Routes>
       </BrowserRouter>
-
+    </Provider>
   );
 }
 
