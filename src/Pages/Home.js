@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios';
 import Card from '../Component/Card'; // Adjust the path based on your actual file structure
-
+import result from '../news.json'
 const Home = ({ category }) => {
   const dispatch = useDispatch();
   const { articles, loading, page, totalResults, keyWord } = useSelector(state => state.news);
@@ -15,8 +15,8 @@ const Home = ({ category }) => {
   const fetchData = async () => {
     dispatch(setLoading(true));
     try {
-      const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=${page}`);
-      dispatch(setArticles([...articles, ...result.data.articles]));
+      // const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03&page=${page}`);
+      dispatch(setArticles([...articles, ...result.results]));
   
       dispatch(setPage(page + 1));
     } catch (error) {
@@ -30,10 +30,11 @@ const Home = ({ category }) => {
     const initialFetch = async () => {
       dispatch(setLoading(true));
       try {
-        const result = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&country=in&q=${keyWord}&apiKey=b9329e3225d746e595d53e1fa32adf03`);
-        dispatch(setArticles(result.data.articles));
+        // const result = await axios.get(`${news.json}`);
+        console.log(result)
+        dispatch(setArticles(result.results));
         dispatch(setPage(2));
-        dispatch(setTotalResults(result.data.totalResults));
+        dispatch(setTotalResults(result.results.length));
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {

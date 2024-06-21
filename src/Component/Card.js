@@ -35,7 +35,7 @@ const Card = ({ article, index }) => {
 
   return (
     <div className="relative card rounded-lg hover:shadow-[#0f71dd] p-4 bg-[#0f172abf] bg-opacity-70" style={{ maxHeight: '400px', overflow: 'hidden', color: '#0ea5e9' }} key={index}>
-      <img className="card-img-top border-gray-700 border-b-2" src={article.urlToImage ? article.urlToImage : imgs} alt="Card" style={{ width: '100%', maxHeight: '200px', height: '200px', objectFit: 'cover' }} />
+      <img className="card-img-top border-gray-700 border-b-2" src={article.image_url ? article.image_url : imgs} alt="Card" style={{ width: '100%', maxHeight: '200px', height: '200px', objectFit: 'cover' }} />
       <div className="card-body p-2" style={{ padding: '10px' }}>
         <Link className="card-title text-blue-300 hover:text-blue-500 block" onClick={() => handleClick(article)} to='/CompleteArticle'>
           {article.title}

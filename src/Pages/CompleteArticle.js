@@ -74,7 +74,7 @@ const CompleteArticle = () => {
                     <p className="text-gray-400 mb-4">Source: <a href={selectedArticle.source_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">{selectedArticle.source_id}</a></p>
                     {/* <p className="text-gray-400 mb-4">Author: {selectedArticle.creator.join(', ')}</p>
                     <p className="text-gray-400 mb-4">Category: {selectedArticle.category.join(', ')}</p> */}
-                    <a href={selectedArticle.link} target="_blank" rel="noopener noreferrer" className="text-blue-500">Read more</a>
+                    {/* <a href={selectedArticle.link} target="_blank" rel="noopener noreferrer" className="text-blue-500">Read more</a> */}
                 </div>
             </div>
         </div>
