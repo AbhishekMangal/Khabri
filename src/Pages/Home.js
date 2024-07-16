@@ -11,10 +11,7 @@ import Card from '../Component/Card'; // Adjust the path based on your actual fi
 const Home = ({ category }) => {
   var geolocation = require('geolocation')
  
-geolocation.getCurrentPosition(function (err, position) {
-  if (err) throw err
-  console.log(position)
-})
+
   const dispatch = useDispatch();
   const { articles, loading, page, totalResults, keyWord } = useSelector(state => state.news);
 
