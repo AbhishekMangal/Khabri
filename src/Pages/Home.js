@@ -9,7 +9,7 @@ import axios from 'axios';
 import Card from '../Component/Card'; // Adjust the path based on your actual file structure
 
 const Home = ({ category }) => {
-  var geolocation = require('geolocation')
+
  
 
   const dispatch = useDispatch();
