@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setKeyWord, setMenuOpen, setCategory, setDrop } from "../Features/news/newsSlice";
+import { setKeyWord, setMenuOpen, setCategory, setDrop, setArticles } from "../Features/news/newsSlice";
 import { IoHome } from "react-icons/io5";
 import { MdOutlineSportsCricket } from "react-icons/md";
 import { SiBookstack } from "react-icons/si";
@@ -54,6 +54,7 @@ useEffect(()=>
     dispatch(setCategory(value));
     dispatch(setMenuOpen(false));
     dispatch(setDrop(false));
+    dispatch(setArticles([]));
   };
 
   const handleChange = (e) => {

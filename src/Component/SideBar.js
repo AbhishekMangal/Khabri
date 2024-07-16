@@ -14,7 +14,7 @@ const SideBar = ({ handleClick, category ,setCategory}) => {
   {
     const path = window.location.pathname
   
-  })
+  }, [])
   return (
     <div className="lg:hidden fixed top-20 inset-y-0 left-0 p-4 bg-[#0f172a] z-50 transform translate-x-0 transition-transform duration-300 ease-in-out w-64">
       <Navitem

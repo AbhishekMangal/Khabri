@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import Card from '../Component/Card';
 
 const Favorite = () => {
-  const { keyWord } = useSelector(state => state.news);
-  const [filteredArticles, setFilteredArticles] = useState([]);
+  const { keyWord,  } = useSelector(state => state.news);
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || []);
+  const [filteredArticles, setFilteredArticles] = useState(favorites);
 
   useEffect(() => {
     // Filter articles based on keyWord

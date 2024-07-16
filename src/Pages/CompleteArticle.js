@@ -3,11 +3,12 @@ import img from '../Images/null images.jpg'; // Correct the path if needed
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setSelectedArticle } from '../Features/news/newsSlice'; // Assume there's an action for setting the selected article
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const CompleteArticle = () => {
   const dispatch = useDispatch();
   const { id } = useParams(); // Extract the id from URL using useParams
-  const { articles, selectedArticle } = useSelector(state => state.news);
+  const { articles, selectedArticle, loading } = useSelector(state => state.news);
 
   useEffect(() => {
     console.log(articles)
@@ -21,7 +22,11 @@ const CompleteArticle = () => {
 
   // If selectedArticle is not found, return a loading or not found message
   if (!selectedArticle) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]">
+      <ClipLoader color="white" loading={loading} size={150} />
+    </div>
+    );
   }
 
   // Function to format pubDate if needed
@@ -60,7 +65,7 @@ const CompleteArticle = () => {
           <p className="text-gray-400 mb-4">{selectedArticle.content}</p>
 
           <p className="text-gray-400 mb-4">Published on: {formattedPubDate}</p>
-          <p className="text-gray-400 mb-4">Source: <a href={selectedArticle.source_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">{selectedArticle.source_id}</a></p> */}
+          <p className="text-gray-400 mb-4">Source: <a href={selectedArticle.source_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">{selectedArticle.source_id}</a></p> 
            {/* Uncomment and use if needed */}
           {/* <p className="text-gray-400 mb-4">Author: {selectedArticle.creator.join(', ')}</p>
           <p className="text-gray-400 mb-4">Category: {selectedArticle.category.join(', ')}</p> */}
