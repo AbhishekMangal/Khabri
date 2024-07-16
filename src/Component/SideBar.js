@@ -8,8 +8,13 @@ import { IoBusiness } from "react-icons/io5";
 import { CiHospital1 } from "react-icons/ci";
 import { Navitem } from "./Navitem";
 import { FaStar } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { setDrop } from "../Features/news/newsSlice";
 
 const SideBar = ({ handleClick, category ,setCategory}) => {
+  const dispatch = useDispatch();
+  const {  drop } = useSelector((state) => state.news);
+  
   useEffect(()=>
   {
     const path = window.location.pathname
@@ -49,7 +54,7 @@ const SideBar = ({ handleClick, category ,setCategory}) => {
       <Navitem
         text="Technology"
         icon={<HiOutlineDesktopComputer size={25} />}
-        onClick={() => handleClick("technology")}
+         onClick={() => handleClick("technology")}
         isActive={window.location.pathname === "/technology"}
         location={'/technology'}
       />
@@ -70,7 +75,7 @@ const SideBar = ({ handleClick, category ,setCategory}) => {
       <Navitem
             text="Favourites"
             icon={<FaStar size={25}/>}
-            onClick={handleClick("Favorite")}
+            onClick={()=> {handleClick("Favorite") ; dispatch(setDrop(false));}}
             isActive={window.location.pathname === `/Favorite`}
             location={'/Favorite'}
           />

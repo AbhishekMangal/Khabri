@@ -51,7 +51,9 @@ useEffect(()=>
   ];
 
   const handleClick = (value) => {
+    if(value !== "Favorite"){
     dispatch(setCategory(value));
+    }
     dispatch(setMenuOpen(false));
     dispatch(setDrop(false));
     dispatch(setArticles([]));
